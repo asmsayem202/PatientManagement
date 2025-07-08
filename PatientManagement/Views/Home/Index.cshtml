@@ -1,8 +1,78 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="bg-gradient-to-r from-blue-100 to-blue-50 min-h-[80vh] flex flex-col justify-center items-center text-center p-4">
+    <div class="max-w-4xl">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-blue-800 mb-6 animate-fade-in-up">
+            🏥 Welcome to Patient Management System
+        </h1>
+        <p class="text-gray-700 text-lg md:text-xl mb-8 animate-fade-in-up delay-100">
+            Patient Management System is a modern, user-friendly platform designed specifically for doctors to streamline patient care. With a clean and intuitive interface, this system allows doctors to effortlessly manage patient profiles, record symptoms, and maintain detailed medicine prescriptions.
+            @* Key features include:
+
+            📋 Patient Record Management – Easily add, edit, and view patient details including name, contact, address, and symptoms.
+
+            💊 Medicine Tracking – Maintain a complete history of prescribed medicines with date-wise tracking and editing.
+
+            ⚡ Real-time AJAX Actions – Perform fast actions like deleting records without full-page reloads.
+
+            📱 Responsive UI with Tailwind CSS – Clean and mobile-friendly design using Tailwind CSS.
+
+            🔍 Smart Pagination & Search – Quickly navigate through patient lists and records efficiently. *@
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6 text-left animate-fade-in-up delay-200">
+            <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
+                <h3 class="text-xl font-semibold text-blue-600 mb-2">👤 Patient Management</h3>
+                <p class="text-gray-600">Add, edit, and delete patient details like name, mobile number, address, and symptoms.</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
+                <h3 class="text-xl font-semibold text-blue-600 mb-2">💊 Medicine Tracker</h3>
+                <p class="text-gray-600">Easily add and manage prescribed medicines with dates and descriptions per patient.</p>
+            </div>
+            <div class="bg-white shadow-lg rounded-xl p-6 hover:shadow-xl transition">
+                <h3 class="text-xl font-semibold text-blue-600 mb-2">⚡ AJAX Interaction</h3>
+                <p class="text-gray-600">AJAX-powered delete with confirmation modals and toast notifications for a smooth UX.</p>
+            </div>
+        </div>
+
+        <a href="/Patient/Index"
+           class="mt-10 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded shadow-lg transition animate-fade-in-up delay-300 inline-flex items-center gap-2">
+            <i data-lucide="square-chart-gantt" class="w-5 h-5"></i>
+            Manage Patients
+        </a>
+    </div>
 </div>
+
+@section Scripts {
+    <style>
+        /* Simple fade-in animation */
+        @@keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out both;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+    </style>
+}

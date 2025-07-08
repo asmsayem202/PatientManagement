@@ -4,11 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="px-6">
+<div class="p-6">
     <h2 class="text-2xl font-bold mb-4 text-center">All Patients</h2>
 
     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
-        <a class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" href="/Patient/Create">Add New Patient</a>
+        <a class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded inline-flex items-center gap-2" href="/Patient/Create"><i data-lucide="circle-plus" class="w-5 h-5"></i>Add New Patient</a>
 
         <input type="text"
                id="searchInput"
@@ -16,40 +16,6 @@
                class="border rounded px-3 py-2 w-64"
                onkeyup="filterPatients()" />
     </div>
-
-    @* <table id="patientsTable" class="min-w-full mt-4 border text-center">
-        <thead>
-            <tr class="bg-gray-200">
-                <th class="px-4 py-2">Name</th>
-                <th class="px-4 py-2">Mobile</th>
-                <th class="px-4 py-2">Address</th>
-                <th class="px-4 py-2">Action</th>
-            </tr>
-        </thead>
-        <tbody id="patientsTableBody">
-            @foreach (var patient in Model)
-            {
-                <tr class="border-b patient-row" id="patient-row-@patient.Id">
-                    <td class="px-4 py-2">@patient.Name</td>
-                    <td class="px-4 py-2">@patient.Mobile</td>
-                    <td class="px-4 py-2">@patient.Address</td>
-                    <td class="px-4 py-2 flex justify-center gap-2">
-                        <a href="/Patient/Details/@patient.Id" title="Details" class="text-blue-600 hover:text-blue-800">
-                            <i data-lucide="eye" class="w-5 h-5"></i>
-                        </a>
-                        <a href="/Patient/Edit/@patient.Id" title="Edit" class="text-green-600 hover:text-green-800">
-                            <i data-lucide="pencil" class="w-5 h-5"></i>
-                        </a>
-                        <button onclick="openPatientDeleteModal(@patient.Id, '@patient.Name')"
-                                title="Delete"
-                                class="text-red-600 hover:text-red-800">
-                            <i data-lucide="trash-2" class="w-5 h-5"></i>
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table> *@
 
     <div class="overflow-x-auto w-full">
         <table id="patientsTable" class="min-w-full mt-4 border text-center">
@@ -90,9 +56,24 @@
 
     <!-- Pagination Controls -->
     <div class="flex justify-center mt-4 space-x-2">
-        <button id="prevPageBtn" onclick="changePage(currentPage - 1)" class="px-3 py-1 bg-gray-300 rounded disabled:opacity-50" disabled>Prev</button>
+        <button id="prevPageBtn"
+                onclick="changePage(currentPage - 1)"
+                class="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 inline-flex items-center gap-1"
+                disabled>
+            <i data-lucide="chevrons-left" class="w-4 h-4"></i>
+            Prev
+        </button>
+
         <span id="pageInfo" class="px-3 py-1"></span>
-        <button id="nextPageBtn" onclick="changePage(currentPage + 1)" class="px-3 py-1 bg-gray-300 rounded disabled:opacity-50" disabled>Next</button>
+
+        <button id="nextPageBtn"
+                onclick="changePage(currentPage + 1)"
+                class="px-3 py-1 bg-gray-300 rounded disabled:opacity-50 inline-flex items-center gap-1"
+                disabled>
+            Next
+            <i data-lucide="chevrons-right" class="w-4 h-4"></i>
+        </button>
+
     </div>
 </div>
 
@@ -117,8 +98,6 @@
 
 @section Scripts {
     <script>
-        lucide.createIcons();
-
         let selectedPatientId = null;
 
         function openPatientDeleteModal(id, name) {
