@@ -1,0 +1,42 @@
+﻿@model PatientManagement.Models.Patient
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="px-6 max-w-xl mx-auto">
+    <h2 class="text-2xl font-bold mb-4 text-center">Add New Patient</h2>
+
+    <form asp-action="Create" method="post" class="space-y-4">
+        <div>
+            <label class="block mb-1 font-semibold">Name</label>
+            <input asp-for="Name" class="w-full border rounded px-3 py-2" />
+            <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+        </div>
+        <div>
+            <label class="block mb-1 font-semibold">Mobile</label>
+            <input asp-for="Mobile" class="w-full border rounded px-3 py-2" />
+        </div>
+        <div>
+            <label class="block mb-1 font-semibold">Address</label>
+            <input asp-for="Address" class="w-full border rounded px-3 py-2" />
+        </div>
+        <div>
+            <label class="block mb-1 font-semibold">Symptoms</label>
+            <textarea asp-for="Symptoms" rows="3" class="w-full border rounded px-3 py-2"></textarea>
+            <span asp-validation-for="Symptoms" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div class="flex gap-2 justify-center">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+            <a asp-action="Index"
+               class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 inline-flex items-center">
+                ⬅ Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

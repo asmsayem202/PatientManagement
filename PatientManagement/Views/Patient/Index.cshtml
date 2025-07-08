@@ -1,0 +1,244 @@
+﻿@model IEnumerable<PatientManagement.Models.Patient>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="px-6">
+    <h2 class="text-2xl font-bold mb-4 text-center">All Patients</h2>
+
+    <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
+        <a class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" href="/Patient/Create">Add New Patient</a>
+
+        <input type="text"
+               id="searchInput"
+               placeholder="Search patients..."
+               class="border rounded px-3 py-2 w-64"
+               onkeyup="filterPatients()" />
+    </div>
+
+    @* <table id="patientsTable" class="min-w-full mt-4 border text-center">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">Mobile</th>
+                <th class="px-4 py-2">Address</th>
+                <th class="px-4 py-2">Action</th>
+            </tr>
+        </thead>
+        <tbody id="patientsTableBody">
+            @foreach (var patient in Model)
+            {
+                <tr class="border-b patient-row" id="patient-row-@patient.Id">
+                    <td class="px-4 py-2">@patient.Name</td>
+                    <td class="px-4 py-2">@patient.Mobile</td>
+                    <td class="px-4 py-2">@patient.Address</td>
+                    <td class="px-4 py-2 flex justify-center gap-2">
+                        <a href="/Patient/Details/@patient.Id" title="Details" class="text-blue-600 hover:text-blue-800">
+                            <i data-lucide="eye" class="w-5 h-5"></i>
+                        </a>
+                        <a href="/Patient/Edit/@patient.Id" title="Edit" class="text-green-600 hover:text-green-800">
+                            <i data-lucide="pencil" class="w-5 h-5"></i>
+                        </a>
+                        <button onclick="openPatientDeleteModal(@patient.Id, '@patient.Name')"
+                                title="Delete"
+                                class="text-red-600 hover:text-red-800">
+                            <i data-lucide="trash-2" class="w-5 h-5"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table> *@
+
+    <div class="overflow-x-auto w-full">
+        <table id="patientsTable" class="min-w-full mt-4 border text-center">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2">Name</th>
+                    <th class="px-4 py-2">Mobile</th>
+                    <th class="px-4 py-2">Address</th>
+                    <th class="px-4 py-2">Action</th>
+                </tr>
+            </thead>
+            <tbody id="patientsTableBody">
+                @foreach (var patient in Model)
+                {
+                    <tr class="border-b patient-row" id="patient-row-@patient.Id">
+                        <td class="px-4 py-2">@patient.Name</td>
+                        <td class="px-4 py-2">@patient.Mobile</td>
+                        <td class="px-4 py-2">@patient.Address</td>
+                        <td class="px-4 py-2 flex justify-center gap-2">
+                            <a href="/Patient/Details/@patient.Id" title="Details" class="text-blue-600 hover:text-blue-800">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                            </a>
+                            <a href="/Patient/Edit/@patient.Id" title="Edit" class="text-green-600 hover:text-green-800">
+                                <i data-lucide="pencil" class="w-5 h-5"></i>
+                            </a>
+                            <button onclick="openPatientDeleteModal(@patient.Id, '@patient.Name')"
+                                    title="Delete"
+                                    class="text-red-600 hover:text-red-800">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center mt-4 space-x-2">
+        <button id="prevPageBtn" onclick="changePage(currentPage - 1)" class="px-3 py-1 bg-gray-300 rounded disabled:opacity-50" disabled>Prev</button>
+        <span id="pageInfo" class="px-3 py-1"></span>
+        <button id="nextPageBtn" onclick="changePage(currentPage + 1)" class="px-3 py-1 bg-gray-300 rounded disabled:opacity-50" disabled>Next</button>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div id="patientDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded p-6 w-full max-w-md shadow-lg">
+        <h2 class="text-xl font-bold mb-2 text-red-600">Delete Confirmation</h2>
+        <p id="patientModalText" class="mb-4">Are you sure you want to delete?</p>
+        <div class="flex justify-center space-x-4">
+            <button onclick="closePatientDeleteModal()" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded">Cancel</button>
+            <button onclick="confirmPatientDelete()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded">Delete</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toastSuccess" class="fixed bottom-6 right-6 bg-green-600 text-white px-4 py-3 rounded shadow-lg hidden z-50">
+    Patient deleted successfully.
+</div>
+
+
+@section Scripts {
+    <script>
+        lucide.createIcons();
+
+        let selectedPatientId = null;
+
+        function openPatientDeleteModal(id, name) {
+            selectedPatientId = id;
+            document.getElementById("patientModalText").textContent = `Are you sure you want to delete patient: "${name}"?`;
+            document.getElementById("patientDeleteModal").classList.remove("hidden");
+            document.getElementById("patientDeleteModal").classList.add("flex");
+        }
+
+        function closePatientDeleteModal() {
+            selectedPatientId = null;
+            document.getElementById("patientDeleteModal").classList.add("hidden");
+            document.getElementById("patientDeleteModal").classList.remove("flex");
+        }
+
+        async function confirmPatientDelete() {
+            if (!selectedPatientId) return;
+
+            try {
+                const response = await fetch(`/Patient/DeleteAjax/${selectedPatientId}`, {
+                    method: 'DELETE',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+
+                if (response.ok) {
+                    const row = document.getElementById(`patient-row-${selectedPatientId}`);
+                    if (row) {
+                        // Remove row from DOM and from cache
+                        row.remove();
+                        const index = allRows.findIndex(r => r.id === `patient-row-${selectedPatientId}`);
+                        if (index > -1) allRows.splice(index, 1);
+                    }
+                    showToast("Patient deleted successfully");
+                    closePatientDeleteModal();
+                    // Refresh pagination to update page if needed
+                    filterPatients();
+                } else {
+                    alert("Failed to delete. Try again.");
+                }
+            } catch (err) {
+                console.error("AJAX delete error:", err);
+                alert("Error deleting patient.");
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toastSuccess");
+            toast.textContent = message;
+            toast.classList.remove("hidden");
+
+            setTimeout(() => {
+                toast.classList.add("hidden");
+            }, 3000);
+        }
+
+        // Filtering and pagination
+
+        const rowsPerPage = 5;
+        let currentPage = 1;
+        const tableBody = document.getElementById('patientsTableBody');
+        const allRows = Array.from(tableBody.querySelectorAll('.patient-row'));
+
+        function filterPatients() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            // Filter rows
+            filteredRows = allRows.filter(row => {
+                const cells = row.querySelectorAll('td');
+                return Array.from(cells).some(cell =>
+                    cell.textContent.toLowerCase().includes(searchTerm)
+                );
+            });
+
+            currentPage = 1;
+            paginate();
+        }
+
+        function paginate() {
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+            // Disable Prev on first page
+            document.getElementById('prevPageBtn').disabled = currentPage === 1;
+
+            // Calculate index where next page starts
+            const nextPageStartIndex = currentPage * rowsPerPage;
+            // How many rows remain for next page?
+            const nextPageRowCount = filteredRows.length - nextPageStartIndex;
+
+            // Disable Next if next page has 0 rows (no rows)
+            document.getElementById('nextPageBtn').disabled = nextPageRowCount <= 0;
+
+            // Show page info
+            document.getElementById('pageInfo').textContent =
+                totalPages === 0 ? "No records found" : `Page ${currentPage} of ${totalPages}`;
+
+            // Hide all rows
+            allRows.forEach(row => (row.style.display = 'none'));
+
+            // Show current page rows only
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            filteredRows.slice(start, end).forEach(row => (row.style.display = ''));
+        }
+
+
+        function changePage(newPage) {
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            if (newPage < 1 || newPage > totalPages) return;
+
+            currentPage = newPage;
+            paginate();
+        }
+
+        let filteredRows = allRows; // initialize filteredRows with all rows
+
+        // Initial load
+        window.onload = () => {
+            filterPatients();
+        };
+
+    </script>
+}
+

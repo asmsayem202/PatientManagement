@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PatientManagement</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Tailwind Config (optional font/colors) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#f1f5f9'
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Custom styles (optional) -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <!-- 🌐 Navbar -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="text-xl font-bold text-primary hover:underline">
+                🩺 PatientManagement
+            </a>
+            <nav class="space-x-4 text-sm font-medium">
+                <a asp-controller="Home" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Home"
+           ? "text-primary font-semibold"
+           : "text-gray-700 hover:text-primary")">
+                    Home
+                </a>
+
+                <a asp-controller="Patient" asp-action="Index"
+                   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Patient"
+           ? "text-primary font-semibold"
+           : "text-gray-700 hover:text-primary")">
+                    Patients
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- 📄 Main content -->
+    <main class="container mx-auto px-4 py-6 min-h-[calc(100vh-150px)]">
+        @RenderBody()
+    </main>
+
+    <!-- ⚓ Footer -->
+    <footer class="bg-white border-t shadow-sm py-4 mt-10">
+        <div class="container mx-auto px-4 text-sm text-gray-500 flex justify-between">
+            <div>&copy; 2025 PatientManagement</div>
+            <div>
+                <a asp-controller="Home" asp-action="Privacy" class="hover:text-primary">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 📦 Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
