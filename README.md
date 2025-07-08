@@ -1,4 +1,4 @@
-🏥 Patient Management System (ASP.NET Core MVC with Tailwind CSS)
+## 🏥 Patient Management System (ASP.NET Core MVC with Tailwind CSS)
 
 A simple and user-friendly web application for managing patients and their prescribed medicines. Built with **ASP.NET Core MVC (.NET 8)**, **Entity Framework Core**, **SQL Server**, and styled using **Tailwind CSS**.
 
@@ -26,6 +26,11 @@ A simple and user-friendly web application for managing patients and their presc
 - **Tailwind CSS**
 - **jQuery (for AJAX)**
 - **Lucide Icons**
+
+---
+
+## 📚 Tags
+`aspnet-core` `dotnet-8` `mvc` `tailwindcss` `sql-server` `crud` `medical-system`
 
 ---
 
