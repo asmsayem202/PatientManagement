@@ -106,8 +106,7 @@
                 Patients
             </a>
             @if (User.Identity.IsAuthenticated)
-            {
-                <div class="text-sm text-gray-600">Hello, <strong>@User.Identity.Name</strong></div>
+            {                
                 <form method="post" asp-controller="Account" asp-action="Logout">
                     <button type="submit" class="w-full text-left text-red-600 mt-2">Logout</button>
                 </form>
