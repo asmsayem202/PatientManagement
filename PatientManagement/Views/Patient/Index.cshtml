@@ -10,11 +10,21 @@
     <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
         <a class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded inline-flex items-center gap-2" href="/Patient/Create"><i data-lucide="circle-plus" class="w-5 h-5"></i>Add New Patient</a>
 
-        <input type="text"
-               id="searchInput"
-               placeholder="Search patients..."
-               class="border rounded px-3 py-2 w-64"
-               onkeyup="filterPatients()" />
+        <div class="relative w-64">
+            <input type="text"
+                   id="searchInput"
+                   placeholder="Search patients..."
+                   class="border rounded px-3 py-2 w-full pr-8"
+                   onkeyup="filterPatients()" />
+
+            <button type="button"
+                    id="clearSearchBtn"
+                    onclick="clearSearch()"
+                    class="absolute text-2xl right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800 hidden">
+                &times;
+            </button>
+        </div>
+
     </div>
 
     <div class="overflow-x-auto w-full">
@@ -174,6 +184,23 @@
             currentPage = 1;
             paginate();
         }
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            filterPatients();
+            updateClearButtonVisibility();
+        }
+
+        function updateClearButtonVisibility() {
+            const input = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            clearBtn.classList.toggle('hidden', input.value.trim() === '');
+        }
+
+        // Update visibility when typing
+        document.getElementById('searchInput').addEventListener('input', updateClearButtonVisibility);
+
 
         function paginate() {
             const totalPages = Math.ceil(filteredRows.length / rowsPerPage);

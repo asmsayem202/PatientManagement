@@ -15,7 +15,7 @@ namespace PatientManagement.Data
             {
                 var user = new IdentityUser
                 {
-                    UserName = "doctor",
+                    UserName = "Doctor",
                     Email = email,
                     EmailConfirmed = true
                 };
